@@ -37,8 +37,8 @@ func main() {
 	for r := 0; r < 64; r++ {
 		for j := 0; j < len(a); j++ {
 			l := a[j]
-			start := current % len(v)
-			end := l + current - 1
+			start := current
+			end := current + l - 1
 
 			for i := 0; i < l/2; i++ {
 				s := (start + i) % len(v)
