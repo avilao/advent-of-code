@@ -53,7 +53,7 @@ func main() {
 
 		points = append(points, p)
 	}
-	//fmt.Println(points)
+
 	for r := 0; r < 10000; r++ {
 		for i := 0; i < len(points); i++ {
 			// update speed
@@ -65,13 +65,7 @@ func main() {
 			points[i].c.x += points[i].v.x
 			points[i].c.y += points[i].v.y
 			points[i].c.z += points[i].v.z
-
-			//d := points[i].c.x + points[i].c.y + points[i].c.z
-			//fmt.Println(d, points[i])
-
 		}
-		//fmt.Println("")
-
 	}
 
 	distance := 99999999999
