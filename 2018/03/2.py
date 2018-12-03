@@ -3,6 +3,7 @@ import sys
 lines = map(lambda s: s.split(' '),  open('input.txt').read().split("\n"))
 
 m = {}
+overlapped = {}
 
 for l in lines:
   n = l[0].replace('#', '')
@@ -13,23 +14,21 @@ for l in lines:
     x = 0
     while x < size[0]:
         c = "%s-%s" % (x + start[0], y + start[1])
-        if not m.get(c): 
+
+        coord = m.get(c)
+        if not coord: 
             m[c] = list()
-        
+        elif len(coord) == 1:
+            overlapped[coord[0]] = True
+            overlapped[n] = True
+        else:
+          overlapped[n] = True
+
         m[c].append(n)
         x += 1
     y += 1
 
-
-repeated = {k: v for k, v in m.items() if len(v) > 1}
-
 for l in lines:
   n = l[0].replace('#', '')
-  found = False
-  for k, v in repeated.items():    
-    if n in v:
-      found = True
-      break
-
-  if not found:
+  if not n in overlapped:
     print(n)
