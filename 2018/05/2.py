@@ -21,13 +21,3 @@ while j <= 90: #char Z
     j += 1
 
 print(m)
-
-
-
-
-
-
-
-
-
-
