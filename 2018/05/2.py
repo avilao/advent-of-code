@@ -7,8 +7,7 @@ def bomb(s):
     while i < len(s) - 1:
         if abs(ord(s[i]) - ord(s[i+1])) == 32:
             s = s[:i] + s[i+2:]
-
-            i = i - 1 if i > 0 else i
+            i = i - 1 or i
         else:
             i += 1
     return s
