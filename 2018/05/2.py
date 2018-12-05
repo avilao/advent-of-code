@@ -3,17 +3,14 @@ import sys
 line = open('input.txt').readline()
 
 def bomb(s):
-    found = True
-    while found: 
-        i = 0
-        found = False
-        while i < len(s) - 1:
-            if abs(ord(s[i]) - ord(s[i+1])) == 32:
+    i = 0
+    while i < len(s) - 1:
+        if abs(ord(s[i]) - ord(s[i+1])) == 32:
+            s = s[:i] + s[i+2:]
 
-                s = s[:i] + s[i+2:]
-                found = True
-            else:
-                i += 1
+            i = i - 1 if i > 0 else i
+        else:
+            i += 1
     return s
         
 j = 65 
