@@ -20,7 +20,6 @@ while not found:
     yMin = c[1] if c[1] < yMin else yMin
     yMax = c[1] if c[1] > yMax else yMax
 
-
   if yMax - yMin > 10:
     continue
 
@@ -42,10 +41,3 @@ while not found:
   sys.stdout.write('\n')
   print(n)
   sys.stdout.flush()
-
-
-
-
-
-
-
