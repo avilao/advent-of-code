@@ -1,6 +1,6 @@
 import re
 import sys
-xMin, xMax, yMin, yMax = 500, 500, 1, 1
+xMin, xMax, yMin, yMax = 500, 500, 9999, 1
 scan = {}
 
 def printMap():
@@ -20,16 +20,15 @@ def processLine(s):
 
   for n in range(minClay, maxClay + 1):
     x, y = (pivot, n)  if data[0][0] == 'x' else (n, pivot)
-    xMin = x if x < xMin else xMin
-    xMax = x if x > xMax else xMax
-    yMin = y if y < yMin else yMin
-    yMax = y if y > yMax else yMax
+    xMin = min(x, xMin)
+    xMax = max(x, xMax)
+    yMin = min(y, yMin)
+    yMax = max(y, yMax)
     scan[x,y] = '#'
 
 map(processLine, open('input.txt').read().split('\n'))
-scan[(500,0)] = '|'
-m = [[ scan.get((x,y)) if scan.get((x,y)) else '.' for y in range(yMin - 1, yMax + 2)] for x in range(xMin - 1, xMax + 2)]
-
+scan[(500,yMin)] = '|'
+m = [[ scan.get((x,y)) if scan.get((x,y)) else '.' for y in range(yMin, yMax + 1)] for x in range(xMin - 2, xMax + 3)]
 
 def floodLine(x,y):
   i = x - 1
@@ -54,21 +53,19 @@ def fillLine(x,y):
 def isContained(x,y):
   hasLeft, hasRight = False, False
   i = x - 1
-  while m[i][y+1] in ['#', '~'] and i > 0:
+  while i > 0 and m[i][y+1] in ['#', '~']:
     if m[i][y] == '#':
       hasLeft = True
       break
     i -= 1
 
   i = x + 1
-  while m[i][y+1] in ['#', '~'] and i < xMax - xMin:
+  while  i < len(m) and m[i][y+1] in ['#', '~']:
     if m[i][y] == '#':
       hasRight = True
       break
     i += 1
   return hasRight and hasLeft
-
-
 
 def drop():
   count = 0
@@ -96,5 +93,16 @@ while True:
   if newCount == count:
     break
   count = newCount
-  print(count)
-print(newCount - 1)
+
+total_water = 0
+still_water = 0
+for y in range(0, len(m[0])):
+  for x in range(len(m)):
+    if m[x][y]  == '~':
+      total_water += 1
+      still_water += 1
+    if m[x][y]  == '|':
+      total_water += 1
+
+print(total_water)
+print(still_water)
