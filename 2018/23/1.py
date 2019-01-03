@@ -12,5 +12,3 @@ for b in iter(bots):
   botsInDistance += 1 if md <= maxBot[3] else 0
 
 print(botsInDistance)
-
-
