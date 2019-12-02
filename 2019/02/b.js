@@ -5,7 +5,6 @@ var rl = readline.createInterface({
   terminal: false
 });
 
-let arr = [];
 function doOp(a, p) {
   const v1 = a[a[p + 1]];
   const v2 = a[a[p + 2]];
@@ -28,7 +27,7 @@ function doOp(a, p) {
 }
 
 rl.on("line", function(line) {
-  arr = line.split(",").map(v => parseInt(v));
+  const arr = line.split(",").map(v => parseInt(v));
 
   for (let x = 0; x <= 99; x++) {
     for (let y = 0; y <= 99; y++) {
