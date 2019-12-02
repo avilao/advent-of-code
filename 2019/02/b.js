@@ -30,19 +30,17 @@ function doOp(a, p) {
 rl.on("line", function(line) {
   arr = line.split(",").map(v => parseInt(v));
 
-  while (true) {
-    for (let x = 0; x <= 99; x++) {
-      for (let y = 0; y <= 99; y++) {
-        const cArray = arr.slice(0);
-        cArray[1] = x;
-        cArray[2] = y;
-        for (let i = 0; i < arr.length; i += 4) {
-          doOp(cArray, i);
-        }
-        if (cArray[0] === 19690720) {
-          console.log(100 * x + y);
-          return;
-        }
+  for (let x = 0; x <= 99; x++) {
+    for (let y = 0; y <= 99; y++) {
+      const cArray = arr.slice(0);
+      cArray[1] = x;
+      cArray[2] = y;
+      for (let i = 0; i < arr.length; i += 4) {
+        doOp(cArray, i);
+      }
+      if (cArray[0] === 19690720) {
+        console.log(100 * x + y);
+        return;
       }
     }
   }
