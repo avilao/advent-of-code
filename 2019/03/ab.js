@@ -14,20 +14,22 @@ const d = {
 const m = {}
 let iteration = 0;
 let minMd = undefined;
+let minSteps = undefined
 
 rl.on("line", function(line) {
   wires = line.split(",").map(d => [d[0], parseInt(d.slice(1))])
   const p = [0, 0];  
   iteration += 1;
+  let steps = 1;
 
   wires.forEach(w => {
-    for (let x = 0; x < w[1]; x++) {
+    for (let x = 0; x < w[1]; x++, steps++) {
       p[0] += d[w[0]][0];
       p[1] += d[w[0]][1];
       if(!m[p]) {
         m[p] = {};
       }
-      m[p][iteration] = m[p][iteration] ? m[p][iteration] + 1 : 1; 
+      m[p][iteration] = m[p][iteration] ? m[p][iteration] : steps; 
     }
   });
 }).on("close", () => {
@@ -38,7 +40,17 @@ rl.on("line", function(line) {
       if (!minMd || md < minMd) {
         minMd = md;
       }
+
+      let sumSteps = 0;
+      Object.keys(m[k]).forEach((t) => {
+        sumSteps += m[k][t];
+      })
+
+      if (!minSteps || sumSteps < minSteps) {
+        minSteps = sumSteps;
+      }
     }
   })
   console.log(minMd);
+  console.log(minSteps);
 });
