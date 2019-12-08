@@ -1,9 +1,4 @@
-var readline = require("readline");
-var rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: false
-});
+const utils = require('../utils');
 
 function doOp(a, p) {
   const v1 = a[a[p + 1]];
@@ -26,7 +21,7 @@ function doOp(a, p) {
   a[a[p + 3]] = result;
 }
 
-rl.on("line", function(line) {
+utils.rl.on("line", function(line) {
   const arr = line.split(",").map(v => parseInt(v));
 
   for (let x = 0; x <= 99; x++) {

@@ -1,9 +1,4 @@
-var readline = require("readline");
-var rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: false
-});
+const utils = require('../utils');
 
 function getPathToRoot(p) {
   let path = []
@@ -17,7 +12,7 @@ function getPathToRoot(p) {
 }
 
 let orbits = {}
-rl.on("line", function(line) {
+utils.rl.on("line", function(line) {
   const orbit = line.split(")");
   orbits[orbit[1]] = orbit[0];
 }).on("close", () => {

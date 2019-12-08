@@ -1,9 +1,4 @@
-var readline = require("readline");
-var rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: false
-});
+const utils = require('../utils');
 
 function isValid(n) {
   const a = (""+ n ).split("").map((t) => parseInt(t))
@@ -15,7 +10,7 @@ function isValid(n) {
   return adjacent;
 }
 
-rl.on("line", function(line) {
+utils.rl.on("line", function(line) {
   range = line.split("-").map(v => parseInt(v));
   let valid = 0;
 

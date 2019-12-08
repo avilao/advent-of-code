@@ -1,9 +1,4 @@
-var readline = require("readline");
-var rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: false
-});
+const utils = require('../utils');
 
 const getNumberAt = (number, pos, l = 1) =>  Math.floor((number / Math.pow(10, pos - 1)) % Math.pow(10, l));
 const getValueFromOpcode = (p, mode) => mode === 0 ?  arr[arr[p]] : arr[p];
@@ -43,10 +38,10 @@ function doOp(p) {
   return inc;
 }
 
-rl.on("line", function(line) {
+utils.rl.on("line", function(line) {
   arr = line.split(",").map(v => parseInt(v));
 
   for (let i = 0; i < arr.length;) {
     i += doOp(i);
   }
-}).on("close", () => console.log(arr));
+});

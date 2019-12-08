@@ -1,9 +1,4 @@
-var readline = require("readline");
-var rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: false
-});
+const utils = require('../utils');
 
 const PIXEL_TYPE = {
   BLACK: 0,
@@ -18,7 +13,7 @@ class Layer {
   }
 }
 
-rl.on("line", function(line) {
+utils.rl.on("line", function(line) {
   const WIDTH = 25;
   const HEIGHT = 6;
   const PIXEL_TOTAL = WIDTH * HEIGHT;

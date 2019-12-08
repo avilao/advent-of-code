@@ -1,9 +1,4 @@
-var readline = require("readline");
-var rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: false
-});
+const utils = require('../utils');
 
 const d = {
   U: [0, 1],
@@ -16,7 +11,7 @@ let wireNumber = 0;
 minMd = undefined;
 let minSteps = undefined
 
-rl.on("line", function(line) {
+utils.rl.on("line", function(line) {
   wireTwists = line.split(",").map(d => [d[0], parseInt(d.slice(1))])
   wireNumber += 1;
   
