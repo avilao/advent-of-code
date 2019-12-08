@@ -1,26 +1,5 @@
 const utils = require('../utils');
 
-function getPerm(ar) {
-  const results = [];
-
-  if (ar.length === 1) {
-    results.push(ar);
-    return results;
-  }
-
-  for (let i = 0; i < ar.length; i++) {
-    const el = ar[i];
-    const elsLeft = ar.slice(0, i).concat(ar.slice(i + 1));
-    var innerPerms = getPerm(elsLeft);
-    for (var j = 0; j < innerPerms.length; j++) {
-      results.push([el].concat(innerPerms[j]));
-    }
-  }
-  return results;
-}
-
-const getNumberAt = (number, pos) =>  Math.floor((number / Math.pow(10, pos - 1)) % 10);
-
 class Amp {
    constructor(phase, program) {
     this.phase = phase;
@@ -36,9 +15,9 @@ class Amp {
 
   doOp() {
     const instruction = this.program[this.position];
-    const op = getNumberAt(instruction, 1) + getNumberAt(instruction, 2) * 10;
-    const o1mode  = getNumberAt(instruction, 3);
-    const o2mode  = getNumberAt(instruction, 4);
+    const op = utils.getNumberAtPosition(instruction, 1) + utils.getNumberAtPosition(instruction, 2) * 10;
+    const o1mode  = utils.getNumberAtPosition(instruction, 3);
+    const o2mode  = utils.getNumberAtPosition(instruction, 4);
     const o1 = this.getValueFromOpcode(this.position + 1, o1mode);
     const o2 = this.getValueFromOpcode(this.position + 2, o2mode);
     const o3 = this.getValueFromOpcode(this.position + 3, 1);
@@ -92,19 +71,18 @@ class Amp {
 utils.rl.on("line",  function(line) {
   let maxOutput = 0;
   const program = line.split(",").map(v => parseInt(v));
-  const permutations = getPerm([5, 6, 7, 8, 9]);
-  // const permutations = [[9, 8, 7, 6, 5]];
+  const key = [5, 6, 7, 8, 9];
+  const permutations = utils.getPermutations(key);
 
   permutations.forEach((perm) => {
     const amps = perm.map((phase) => new Amp(phase,  program.slice()));
-
     amps[0].input = 0;
-    for(let i = 0; !amps[4].isFinished(); i = (i + 1) % 5) {
+    for(let i = 0; !amps[key.length -1].isFinished(); i = (i + 1) % key.length) {
       while (!amps[i].isFinished() && !amps[i].hasOutputed) amps[i].doOp();
-      amps[(i + 1) % 5].input = amps[i].output;
+      amps[(i + 1) % key.length].input = amps[i].output;
       amps[i].hasOutputed = false;
     }
-    if (amps[4].output > maxOutput) maxOutput = amps[4].output;
+    if (amps[key.length -1].output > maxOutput) maxOutput = amps[key.length -1].output;
   });
   console.log(maxOutput)
 });

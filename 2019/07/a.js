@@ -1,26 +1,5 @@
 const utils = require('../utils');
 
-function getPerm(ar) {
-  const results = [];
-
-  if (ar.length === 1) {
-    results.push(ar);
-    return results;
-  }
-
-  for (let i = 0; i < ar.length; i++) {
-    const el = ar[i];
-    const elsLeft = ar.slice(0, i).concat(ar.slice(i + 1));
-    var innerPerms = getPerm(elsLeft);
-    for (var j = 0; j < innerPerms.length; j++) {
-      results.push([el].concat(innerPerms[j]));
-    }
-  }
-  return results;
-}
-
-const getNumberAt = (number, pos) =>  Math.floor((number / Math.pow(10, pos - 1)) % 10);
-
 let maxOutput = 0;
 
 class Amp {
@@ -37,9 +16,9 @@ class Amp {
 
   doOp() {
     const instruction = this.program[this.position];
-    const op = getNumberAt(instruction, 1) + getNumberAt(instruction, 2) * 10;
-    const o1mode  = getNumberAt(instruction, 3);
-    const o2mode  = getNumberAt(instruction, 4);
+    const op = utils.getNumberAtPosition(instruction, 1) + utils.getNumberAtPosition(instruction, 2) * 10;
+    const o1mode  = utils.getNumberAtPosition(instruction, 3);
+    const o2mode  = utils.getNumberAtPosition(instruction, 4);
     const o1 = this.getValueFromOpcode(this.position + 1, o1mode);
     const o2 = this.getValueFromOpcode(this.position + 2, o2mode);
     const o3 = this.getValueFromOpcode(this.position + 3, 1);
@@ -90,16 +69,17 @@ class Amp {
 
 utils.rl.on("line",  function(line) {
   const program = line.split(",").map(v => parseInt(v));
-  const permutations = getPerm([0,1,2,3,4]);
+  const key = [0,1,2,3,4]
+  const permutations = utils.getPermutations(key);
 
   permutations.forEach((perm, x) => {
     const amps = perm.map((phase) => new Amp(phase,  program.slice()));
 
     amps.forEach(async (amp, index) => {
-      amp.input = amps[(index + 4) % 5].output 
+      amp.input = amps[(index + key.length - 1) % key.length].output 
       while (!amp.isFinished()) amp.doOp();
     });
-    if (amps[4].output > maxOutput) maxOutput = amps[4].output;
+    if (amps[key.length - 1].output > maxOutput) maxOutput = amps[key.length - 1].output;
   });
   console.log(maxOutput)
 });
