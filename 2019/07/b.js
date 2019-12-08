@@ -1,10 +1,4 @@
-var readline = require("readline");
-var rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: false
-});
-
+const utils = require('../utils');
 
 function getPerm(ar) {
   const results = [];
@@ -32,11 +26,11 @@ class Amp {
     this.phase = phase;
     this.program = program;
     this.position = 0;
-    this.output = 0;
+    this.output = undefined;
+    this.hasOutputed = false;
   }
 
-  isFinished = () => (this.position >= this.program.length);
-  isWaitingInput = () => this.input === undefined && (getNumberAt(this.program[this.position], 1) === 2);
+  isFinished = () => (this.position > this.program.length);
 
   getValueFromOpcode = (n, mode) => (mode === 0 ? this.program[this.program[n]] : this.program[n]);
 
@@ -71,6 +65,7 @@ class Amp {
       case 4:
         this.output = o1;
         this.position += 2;
+        this.hasOutputed = true;
         break;
       case 5:
         this.position = o1 !== 0 ? o2 : this.position + 3;
@@ -94,24 +89,22 @@ class Amp {
   }
 }
 
-rl.on("line",  function(line) {
+utils.rl.on("line",  function(line) {
   let maxOutput = 0;
   const program = line.split(",").map(v => parseInt(v));
-  // const permutations = getPerm([, 6, 7, 8, 9]);
-  const permutations = [[9, 8, 7, 6, 5]];
+  const permutations = getPerm([5, 6, 7, 8, 9]);
+  // const permutations = [[9, 8, 7, 6, 5]];
 
   permutations.forEach((perm) => {
     const amps = perm.map((phase) => new Amp(phase,  program.slice()));
 
+    amps[0].input = 0;
     for(let i = 0; !amps[4].isFinished(); i = (i + 1) % 5) {
-      amps[i].input = amps[(i + 4) % 5].output;
-      console.log(amps[i].input);
-      while (!amps[i].isFinished() && !amps[i].isWaitingInput()) amps[i].doOp();
-
+      while (!amps[i].isFinished() && !amps[i].hasOutputed) amps[i].doOp();
+      amps[(i + 1) % 5].input = amps[i].output;
+      amps[i].hasOutputed = false;
     }
-
     if (amps[4].output > maxOutput) maxOutput = amps[4].output;
-    // console.log(amps);
   });
   console.log(maxOutput)
 });

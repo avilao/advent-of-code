@@ -1,10 +1,4 @@
-var readline = require("readline");
-var rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: false
-});
-
+const utils = require('../utils');
 
 function getPerm(ar) {
   const results = [];
@@ -94,7 +88,7 @@ class Amp {
   }
 }
 
-rl.on("line",  function(line) {
+utils.rl.on("line",  function(line) {
   const program = line.split(",").map(v => parseInt(v));
   const permutations = getPerm([0,1,2,3,4]);
 
