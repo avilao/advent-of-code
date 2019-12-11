@@ -5,7 +5,7 @@ function findAsteroidsInLos(baseAsteroid) {
 
   asteroidMap.forEach(asteroid => {
     if (!isSameCoordinate(baseAsteroid, asteroid)) {
-      const angle = 180 - Math.atan2(asteroid[1] -baseAsteroid[1], asteroid[0] - baseAsteroid[0]) * 180 / Math.PI;
+      const angle =  Math.atan2((asteroid[1] - baseAsteroid[1]), (asteroid[0] - baseAsteroid[0])) * (180 / Math.PI);
       if(angles[angle] === undefined) angles[angle] = [];
       angles[angle].push(asteroid);
     }
@@ -46,14 +46,24 @@ utils.rl.on("line", function(line) {
     } 
   });
 
-   const sorted = Object.keys(result[max.p].visibleAsteroids)
-    .sort(function(a,b) { 
-      return a - b; 
-    }).map(k => result[max.p].visibleAsteroids[k].sort((a, b) => utils.manhattanDistance(a, max.p) - utils.manhattanDistance(b, max.p)));
+  const asteroidsToDestroy = result[max.p].visibleAsteroids;
+  Object.keys(asteroidsToDestroy)
+    .forEach(k => asteroidsToDestroy[k] = asteroidsToDestroy[k].sort((a, b) => utils.manhattanDistance(b, max.p) - utils.manhattanDistance(a, max.p)));
 
-  console.log(sorted);
+  const asteroidsToDestroyIndexes = Object.keys(asteroidsToDestroy).sort((a, b) => (a -b));
+  const startIndex = asteroidsToDestroyIndexes.findIndex(k => parseFloat(k) >= -90)
 
-  console.log(max);
+  for (let i = 0, destroyed = 0; destroyed < max.value; i++) {
+    const asteroidsInAngle = asteroidsToDestroy[asteroidsToDestroyIndexes[(i + startIndex) % asteroidsToDestroyIndexes.length]];
 
-  
+    if(asteroidsInAngle.length > 0) {
+      if (destroyed === 199) {
+        const coord = asteroidsToDestroy[asteroidsToDestroyIndexes[(i + startIndex) % asteroidsToDestroyIndexes.length]][0];
+        console.log(coord[0] * 100 + coord[1]);
+        break;
+      }
+      asteroidsToDestroy[asteroidsToDestroyIndexes[(i + startIndex) % asteroidsToDestroyIndexes.length]] = asteroidsInAngle.shift();
+      destroyed++;
+    } 
+  }
 });
