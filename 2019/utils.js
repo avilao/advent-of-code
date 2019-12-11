@@ -25,7 +25,6 @@ function getPermutations(ar) {
   }
   return results;
 }
-
   
 const commonDenominators = (...args) => {
   const numerators = args.filter(
