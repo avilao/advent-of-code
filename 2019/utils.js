@@ -60,9 +60,14 @@ const commonDenominators = (...args) => {
   return denominators;
 };
 
+function manhattanDistance(p1, p2) {
+	return Math.abs(p1[0] - p2[0]) + Math.abs(p1[1] - p2[1]);
+}
+
 module.exports = {
   commonDenominators,
   getNumberAtPosition,
   getPermutations,
+  manhattanDistance,
   rl,
 };

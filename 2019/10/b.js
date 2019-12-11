@@ -1,39 +1,59 @@
 const utils = require('../utils');
 
-const PIXEL_TYPE = {
-  BLACK: 0,
-  WHITE: 1,
-  TRANSPARENT: 2,
-};
+function findAsteroidsInLos(baseAsteroid) {
+  const angles = {};
 
-class Layer {
-  constructor(pixels) {
-    this.pixels = pixels;
-    this.pixelCount =  pixels.reduce((prev, curr) => (prev[curr] = ++prev[curr] || 1, prev), {})
-  }
-}
-
-utils.rl.on("line", function(line) {
-  const WIDTH = 25;
-  const HEIGHT = 6;
-  const PIXEL_TOTAL = WIDTH * HEIGHT;
-
-  const encondedImage = line.split("").map(v => parseInt(v));
-  const layers = [];
-  
-  for(let i = 0; i < encondedImage.length; i += PIXEL_TOTAL) {
-    layers.push(new Layer(encondedImage.slice(i, i + PIXEL_TOTAL)));
-  }
-
-  let image = Array.from(Array(PIXEL_TOTAL)).map(() => PIXEL_TYPE.TRANSPARENT);
-  layers.forEach(layer => {
-    for (let i = 0; i < PIXEL_TOTAL; i++) {
-      if (image[i] === PIXEL_TYPE.TRANSPARENT) image[i] = layer.pixels[i];
+  asteroidMap.forEach(asteroid => {
+    if (!isSameCoordinate(baseAsteroid, asteroid)) {
+      const angle = 180 - Math.atan2(asteroid[1] -baseAsteroid[1], asteroid[0] - baseAsteroid[0]) * 180 / Math.PI;
+      if(angles[angle] === undefined) angles[angle] = [];
+      angles[angle].push(asteroid);
     }
   });
+  return {
+    visibleAsteroids: angles,
+    count: Object.keys(angles).length,
+  };
+}
 
-  console.log();
-  for(let i = 0; i < image.length; i += WIDTH) {
-    console.log(image.slice(i, i + WIDTH).map(c => c ? '#' : ' ').join(''));
-  }
+function isSameCoordinate(p1, p2) {
+	if (p1.length !== p2.length) return false;
+	for (let i = 0; i < p1.length; i++) {
+		if (p1[i] !== p2[i]) return false;
+	}
+	return true;
+}
+
+
+let asteroidMap = [];
+let result = {}
+let rowCount = 0;
+utils.rl.on("line", function(line) {
+  line.split("").forEach((v, i) => {
+    if (v === '#') asteroidMap.push([i, rowCount]);
+  });
+  rowCount++;
+}).on('close', function() {
+  asteroidMap.forEach(asteroid => {
+    result[asteroid]= findAsteroidsInLos(asteroid)
+  });
+
+  let max = { value: 0, p: [] };
+  Object.keys(result).forEach(coord => {
+    if (result[coord].count > max.value) {
+      max.value = result[coord].count;
+      max.p = coord;
+    } 
+  });
+
+   const sorted = Object.keys(result[max.p].visibleAsteroids)
+    .sort(function(a,b) { 
+      return a - b; 
+    }).map(k => result[max.p].visibleAsteroids[k].sort((a, b) => utils.manhattanDistance(a, max.p) - utils.manhattanDistance(b, max.p)));
+
+  console.log(sorted);
+
+  console.log(max);
+
+  
 });
