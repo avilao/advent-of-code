@@ -2,18 +2,18 @@ const utils = require('../utils');
 
 
 function findAsteroidsInLos(p) {
-  let count = [];
+  let asteroids = [];
 
   for(let by = 0; by < m.length; by++) {
     for(let bx = 0; bx < m[by].length; bx++) {
       if(m[by][bx] === '#' && !isSameCoordinate(p, [bx, by])) {
         if(checkIfOnlyAsteroidsInLine(p, [bx, by])) {
-          count.push([bx, by]);
+          asteroids.push([bx, by]);
         }
       }
     }
   }
-  return count;
+  return asteroids;
 }
 
 function checkIfOnlyAsteroidsInLine(p1, p2) {
