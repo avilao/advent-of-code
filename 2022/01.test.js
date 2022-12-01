@@ -1,7 +1,7 @@
 import { readFile } from '../utils/filesystem';
 import { maxCalories } from './01';
 
-const input = readFile('01.txt', import.meta.url);
+const input = readFile('01.input', import.meta.url);
 
 describe('2022 01', () => {
   it('A', () => {
