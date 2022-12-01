@@ -1,6 +1,6 @@
-const utils = require('./utils');
+import { getNumberAtPosition } from './utils';
 
-class IntCode {
+export class IntCode {
   constructor(program) {
     this.halted = false;
     this.position = 0;
@@ -25,20 +25,19 @@ class IntCode {
     return {
       code,
       operator:
-        utils.getNumberAtPosition(code, 1) +
-        utils.getNumberAtPosition(code, 2) * 10,
+        getNumberAtPosition(code, 1) + getNumberAtPosition(code, 2) * 10,
       params: [
         {
+          mode: getNumberAtPosition(code, 3),
           value: this.program[this.position + 1],
-          mode: utils.getNumberAtPosition(code, 3),
         },
         {
+          mode: getNumberAtPosition(code, 4),
           value: this.program[this.position + 2],
-          mode: utils.getNumberAtPosition(code, 4),
         },
         {
+          mode: getNumberAtPosition(code, 5),
           value: this.program[this.position + 3],
-          mode: utils.getNumberAtPosition(code, 5),
         },
       ],
     };
@@ -116,5 +115,3 @@ class IntCode {
     }
   }
 }
-
-module.exports = IntCode;

@@ -1,9 +1,8 @@
-const IntCode = require('../intcode');
-const utils = require('../utils');
+import { IntCode } from './intcode';
 
-utils.rl.on('line', function (line) {
+export function solve(input) {
   let program = {};
-  line
+  input
     .split(',')
     .map((v) => parseInt(v))
     .forEach((value, i) => {
@@ -13,10 +12,10 @@ utils.rl.on('line', function (line) {
   const part1 = new IntCode(program);
   part1.input = 1;
   while (!part1.halted) part1.doOp();
-  console.log(part1.output);
 
   const part2 = new IntCode(program);
   part2.input = 2;
   while (!part2.halted) part2.doOp();
-  console.log(part2.output);
-});
+
+  return [part1.output[0], part2.output[0]];
+}

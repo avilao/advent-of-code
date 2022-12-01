@@ -1,14 +1,8 @@
-const readline = require('readline');
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: false,
-});
+export function getNumberAtPosition(number, pos) {
+  return Math.floor((number / Math.pow(10, pos - 1)) % 10);
+}
 
-const getNumberAtPosition = (number, pos) =>
-  Math.floor((number / Math.pow(10, pos - 1)) % 10);
-
-function getPermutations(ar) {
+export function getPermutations(ar) {
   const results = [];
 
   if (ar.length === 1) {
@@ -27,7 +21,7 @@ function getPermutations(ar) {
   return results;
 }
 
-const commonDenominators = (...args) => {
+export function commonDenominators(...args) {
   const numerators = args.filter(
     (numerator) => Number.isInteger(numerator) && numerator > 0
   );
@@ -58,16 +52,8 @@ const commonDenominators = (...args) => {
   });
 
   return denominators;
-};
-
-function manhattanDistance(p1, p2) {
-  return Math.abs(p1[0] - p2[0]) + Math.abs(p1[1] - p2[1]);
 }
 
-module.exports = {
-  commonDenominators,
-  getNumberAtPosition,
-  getPermutations,
-  manhattanDistance,
-  rl,
-};
+export function manhattanDistance(p1, p2) {
+  return Math.abs(p1[0] - p2[0]) + Math.abs(p1[1] - p2[1]);
+}
