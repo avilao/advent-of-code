@@ -2,10 +2,11 @@ const readline = require('readline');
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  terminal: false
+  terminal: false,
 });
 
-const getNumberAtPosition = (number, pos) =>  Math.floor((number / Math.pow(10, pos - 1)) % 10);
+const getNumberAtPosition = (number, pos) =>
+  Math.floor((number / Math.pow(10, pos - 1)) % 10);
 
 function getPermutations(ar) {
   const results = [];
@@ -25,10 +26,10 @@ function getPermutations(ar) {
   }
   return results;
 }
-  
+
 const commonDenominators = (...args) => {
   const numerators = args.filter(
-      numerator => Number.isInteger(numerator) && numerator > 0
+    (numerator) => Number.isInteger(numerator) && numerator > 0
   );
   const denominators = [Math.min(...numerators)];
   let minimum = Math.ceil(denominators[0] / 2);
@@ -37,30 +38,30 @@ const commonDenominators = (...args) => {
   if (minimum < 2) return [1];
 
   while (minimum > 0) {
-      if (denominators[0] % minimum === 0) denominators.push(minimum);
-      minimum--;
+    if (denominators[0] % minimum === 0) denominators.push(minimum);
+    minimum--;
   }
 
   denominators.reverse();
 
   if (numerators.length === 1) return [...denominators];
 
-  numerators.splice(1, numerators.length - 1).map(numerator => {
-      let denominator = denominators.length - 1;
+  numerators.splice(1, numerators.length - 1).map((numerator) => {
+    let denominator = denominators.length - 1;
 
-      while (denominator >= 0) {
-          if (numerator % denominators[denominator] !== 0) {
-              denominators.splice(denominator, 1);
-          }
-          denominator--;
+    while (denominator >= 0) {
+      if (numerator % denominators[denominator] !== 0) {
+        denominators.splice(denominator, 1);
       }
+      denominator--;
+    }
   });
 
   return denominators;
 };
 
 function manhattanDistance(p1, p2) {
-	return Math.abs(p1[0] - p2[0]) + Math.abs(p1[1] - p2[1]);
+  return Math.abs(p1[0] - p2[0]) + Math.abs(p1[1] - p2[1]);
 }
 
 module.exports = {

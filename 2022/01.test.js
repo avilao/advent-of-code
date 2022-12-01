@@ -3,10 +3,12 @@ import { maxCalories } from './01';
 
 const input = readFile('01.txt', import.meta.url);
 
-test('Day 01 - A', () => {
-  expect(maxCalories(input)).toBe(70116);
-});
+describe('2022 01', () => {
+  it('A', () => {
+    expect(maxCalories(input)).toBe(70116);
+  });
 
-test('Day 01 - B', () => {
-  expect(maxCalories(input, 3)).toBe(206582);
+  it('B', () => {
+    expect(maxCalories(input, 3)).toBe(206582);
+  });
 });

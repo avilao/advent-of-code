@@ -9,7 +9,8 @@ export function maxCalories(input, n = 1) {
     });
     weights.push(current);
   });
-  const w = weights.sort((a, b) => b - a);
+
+  weights.sort((a, b) => b - a);
 
   let sum = 0;
   for (let i = 0; i < n; i++) {

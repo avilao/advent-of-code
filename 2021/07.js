@@ -1,12 +1,10 @@
-const utils = require('../utils');
+export function getFuelSpent(input, isExponential = false) {
+  let max = 0;
+  let minTotalFuel = Infinity;
 
-let max = 0;
-let minTotalFuel = Infinity;
-
-async function main() {
   const crabs = {};
 
-  (await utils.getLine())
+  input
     .split(',')
     .map((x) => parseInt(x))
     .forEach((c) => {
@@ -18,12 +16,13 @@ async function main() {
     let totalFuel = 0;
     for (let i = 0; i <= max; i++) {
       const crabsInPosition = crabs[i] || 0;
-      totalFuel += Math.abs(x - i) * crabsInPosition;
+      const moves = Math.abs(x - i);
+      totalFuel += isExponential
+        ? (crabsInPosition * (moves * (moves + 1))) / 2
+        : moves * crabsInPosition;
     }
 
     if (totalFuel < minTotalFuel) minTotalFuel = totalFuel;
   }
-  console.log(minTotalFuel);
+  return minTotalFuel;
 }
-
-main();

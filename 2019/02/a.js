@@ -21,11 +21,11 @@ function doOp(arr, p) {
   arr[arr[p + 3]] = result;
 }
 
-utils.rl.on("line", function(line) {
-  const arr = line.split(",").map(v => parseInt(v));
+utils.rl.on('line', function (line) {
+  const arr = line.split(',').map((v) => parseInt(v));
   arr[1] = 12;
   arr[2] = 2;
 
   for (let i = 0; i < arr.length; i += 4) doOp(arr, i);
-  console.log(arr[0])
+  console.log(arr[0]);
 });

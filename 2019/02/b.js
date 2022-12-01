@@ -21,8 +21,8 @@ function doOp(a, p) {
   a[a[p + 3]] = result;
 }
 
-utils.rl.on("line", function(line) {
-  const arr = line.split(",").map(v => parseInt(v));
+utils.rl.on('line', function (line) {
+  const arr = line.split(',').map((v) => parseInt(v));
 
   for (let x = 0; x <= 99; x++) {
     for (let y = 0; y <= 99; y++) {
