@@ -1,4 +1,4 @@
-import { getNumberAtPosition, getPermutations } from './utils';
+import { getNumberAtPosition, getPermutations } from '../utils/math';
 
 class Amp {
   constructor(phase, program) {

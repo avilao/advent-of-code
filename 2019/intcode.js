@@ -1,4 +1,4 @@
-import { getNumberAtPosition } from './utils';
+import { getNumberAtPosition } from '../utils/math';
 
 export class IntCode {
   constructor(program) {

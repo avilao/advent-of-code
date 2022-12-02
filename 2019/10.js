@@ -1,4 +1,4 @@
-import { manhattanDistance } from './utils';
+import { manhattanDistance } from '../utils/physics';
 
 function findAsteroidsInLos(baseAsteroid, asteroidMap) {
   const angles = {};
