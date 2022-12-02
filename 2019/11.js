@@ -1,5 +1,4 @@
-const IntCode = require('../intcode');
-const utils = require('../utils');
+import { IntCode } from './intcode';
 
 const DIRECTIONS_VECTOR = [
   [0, 1], // UP
@@ -8,10 +7,45 @@ const DIRECTIONS_VECTOR = [
   [-1, 0], // LEFT
 ];
 
-utils.rl.on('line', function (line) {
+export function solve(input) {
   let colorMap = {};
   let program = {};
-  line
+
+  input
+    .split(',')
+    .map((v) => parseInt(v))
+    .forEach((value, i) => {
+      program[i] = value;
+    });
+
+  const currentPosition = [0, 0];
+  let directionIndex = 0;
+
+  const robot = new IntCode(program);
+  while (!robot.halted) {
+    robot.input = colorMap[currentPosition] || 0;
+    robot.doOp();
+
+    if (robot.output.length == 2) {
+      const newColor = robot.output.shift();
+      const rotateDirection = robot.output.shift() === 0 ? -1 : 1;
+
+      colorMap[currentPosition] = newColor;
+      directionIndex = (4 + directionIndex + rotateDirection) % 4;
+      currentPosition[0] =
+        currentPosition[0] + DIRECTIONS_VECTOR[directionIndex][0];
+      currentPosition[1] =
+        currentPosition[1] + DIRECTIONS_VECTOR[directionIndex][1];
+      robot.output = [];
+    }
+  }
+  return Object.keys(colorMap).length;
+}
+
+export function solve2(input) {
+  let colorMap = {};
+  let program = {};
+  input
     .split(',')
     .map((v) => parseInt(v))
     .forEach((value, i) => {
@@ -48,19 +82,20 @@ utils.rl.on('line', function (line) {
       return a[0] < b[0];
     });
 
+  let str = '\n';
   for (
     let y = sortedKeys[sortedKeys.length - 1][1];
     y >= sortedKeys[0][1];
     y--
   ) {
-    let line = '';
     for (
       let x = sortedKeys[0][0];
       x <= sortedKeys[sortedKeys.length - 1][0];
       x++
     ) {
-      line += colorMap[[x, y]] === 1 ? '#' : ' ';
+      str += colorMap[[x, y]] === 1 ? '#' : ' ';
     }
-    console.log(line);
+    str += '\n';
   }
-});
+  return str;
+}

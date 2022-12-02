@@ -1,10 +1,31 @@
-const IntCode = require('../intcode');
-const utils = require('../utils');
+import { IntCode } from './intcode';
 
-utils.rl.on('line', function (line) {
+export function solve(input) {
   let m = {};
   let program = {};
-  line
+  input
+    .split(',')
+    .map((v) => parseInt(v))
+    .forEach((value, i) => {
+      program[i] = value;
+    });
+
+  const cpu = new IntCode(program);
+  while (!cpu.halted) {
+    cpu.doOp();
+
+    if (cpu.output.length == 3) {
+      const [x, y, id] = cpu.output;
+      m[[x, y]] = id;
+      cpu.output = [];
+    }
+  }
+  return Object.keys(m).reduce((acc, key) => acc + (m[key] === 2 ? 1 : 0), 0);
+}
+
+export function solve2(input) {
+  let program = {};
+  input
     .split(',')
     .map((v) => parseInt(v))
     .forEach((value, i) => {
@@ -37,5 +58,5 @@ utils.rl.on('line', function (line) {
       cpu.output = [];
     }
   }
-  console.log(score);
-});
+  return score;
+}

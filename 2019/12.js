@@ -1,5 +1,3 @@
-const utils = require('../utils');
-
 const ITERIATIONS = 1000;
 
 function updateVelocity(m1, m2) {
@@ -14,7 +12,7 @@ function updateVelocity(m1, m2) {
   }
 }
 
-function updatePosition() {
+function updatePosition(moons) {
   moons.forEach((moon) => {
     moon.position.forEach((v, i) => {
       moon.position[i] = v + moon.velocity[i];
@@ -22,7 +20,7 @@ function updatePosition() {
   });
 }
 
-function getEnergyTotal() {
+function getEnergyTotal(moons) {
   return moons.reduce(
     (acc, moon) =>
       acc +
@@ -32,23 +30,23 @@ function getEnergyTotal() {
   );
 }
 
-const moons = [];
-utils.rl
-  .on('line', function (line) {
+export function solve(input) {
+  const moons = [];
+  input.split('\n').forEach(function (line) {
     const matches = line.match(/-?\d+/g);
     moons.push({
       position: matches.map((p) => parseInt(p)),
       velocity: new Array(matches.length).fill(0),
     });
-  })
-  .on('close', () => {
-    for (let i = 0; i < ITERIATIONS; i++) {
-      for (let a = 0; a < moons.length; a++) {
-        for (let b = a + 1; b < moons.length + a; b++) {
-          updateVelocity(moons[a], moons[b % moons.length]);
-        }
-      }
-      updatePosition();
-    }
-    console.log(getEnergyTotal());
   });
+  for (let i = 0; i < ITERIATIONS; i++) {
+    for (let a = 0; a < moons.length; a++) {
+      for (let b = a + 1; b < moons.length + a; b++) {
+        updateVelocity(moons[a], moons[b % moons.length]);
+      }
+    }
+    updatePosition(moons);
+  }
+
+  return getEnergyTotal(moons);
+}
