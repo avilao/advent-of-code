@@ -4,11 +4,11 @@ import { getFileScore, getLastBoardFinalScore } from './04';
 const input = readFile('04.input', import.meta.url);
 
 describe('2021 04', () => {
-  it('A', () => {
+  it('Part One', () => {
     expect(getFileScore(input)).toBe(14093);
   });
 
-  it('B', () => {
+  it('Part Two', () => {
     expect(getLastBoardFinalScore(input)).toBe(17388);
   });
 });

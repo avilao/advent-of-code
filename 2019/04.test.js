@@ -7,11 +7,11 @@ import {
 const input = readFile('04.input', import.meta.url);
 
 describe('2019 04', () => {
-  it('A', () => {
+  it('Part One', () => {
     expect(getDifferentPasswordCount(input)).toBe(1660);
   });
 
-  it('B', () => {
+  it('Part Two', () => {
     expect(getDifferentPasswordStrictCount(input)).toBe(1135);
   });
 });

@@ -4,11 +4,11 @@ import { measurementIncreases, measurementSlidingIncreases } from './01';
 const input = readFile('01.input', import.meta.url);
 
 describe('2021 01', () => {
-  it('A', () => {
+  it('Part One', () => {
     expect(measurementIncreases(input)).toBe(1692);
   });
 
-  it('B', () => {
+  it('Part Two', () => {
     expect(measurementSlidingIncreases(input)).toBe(1724);
   });
 });
