@@ -1,25 +1,9 @@
+import { getArraysIntersections, getIntersections } from '../utils/arrays';
+
 function getCharValue(char) {
   const asciiCode = char.charCodeAt(0);
   return asciiCode - (asciiCode > 96 ? 96 : 38);
 }
-
-function getIntersections(arr1, arr2) {
-  const intersections = [];
-  for (let i = 0, l = arr1.length; i < l; i++) {
-    if (arr2.includes(arr1[i])) {
-      intersections.push(arr1[i]);
-    }
-  }
-  return intersections;
-}
-
-const getArraysIntersections = (...arrs) => {
-  let intersections = arrs[0].slice();
-  for (let i = 1; i < arrs.length; i++) {
-    intersections = getIntersections(intersections, arrs[i]);
-  }
-  return intersections;
-};
 
 export function getScoreByLine(input) {
   let sum = 0;
