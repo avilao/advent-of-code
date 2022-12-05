@@ -1,7 +1,7 @@
 # advent-of-code
-My implementations of Advent of Code solutions.
+My solutions for Advent of Code challenges.
 
-Challenges: https://adventofcode.com/
+Visit: https://adventofcode.com/
 
 | Year  | Language    |
 | ----- | ----------- |
