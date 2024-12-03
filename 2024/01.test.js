@@ -3,7 +3,7 @@ import { solveOne, solveTwo } from './01';
 
 const input = readFile('01.input', import.meta.url);
 
-describe('2022 01', () => {
+describe('2024 01', () => {
   it('Part One', () => {
     expect(solveOne(input)).toBe(2367773);
   });
