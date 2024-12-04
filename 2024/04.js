@@ -1,34 +1,37 @@
-const DIRECTIONS = {
-  E: [1, 0],
-  N: [0, -1],
-  NE: [1, -1],
-  NW: [-1, -1],
-  S: [0, 1],
-  SE: [1, 1],
-  SW: [-1, 1],
-  W: [-1, 0],
-};
+// PART TWO
+export function solveTwo(input, targetStr) {
+  const matrix = input.split('\n');
 
-export function solveTwo(input) {
-  const matrix = parseInput(input);
-  // const permutations = getPermutations(targetStr);
+  if (!(targetStr.length % 2)) {
+    return -1;
+  }
+
+  let midIndex = Math.floor(targetStr.length / 2);
 
   let count = 0;
   for (let y = 1; y < matrix.length - 1; y++) {
     for (let x = 1; x < matrix[y].length - 1; x++) {
-      if (matrix[y][x] === 'A') {
+      let isCrossValid = true;
+      for (let o = 0; o <= midIndex; o++) {
         if (
-          ((matrix[y + 1][x + 1] === 'M' && matrix[y - 1][x - 1] === 'S') ||
-            (matrix[y + 1][x + 1] === 'S' && matrix[y - 1][x - 1] === 'M')) &&
-          ((matrix[y + 1][x - 1] === 'M' && matrix[y - 1][x + 1] === 'S') ||
-            (matrix[y + 1][x - 1] === 'S' && matrix[y - 1][x + 1] === 'M'))
+          !(
+            ((matrix[y + o][x + o] === targetStr[midIndex - o] &&
+              matrix[y - o][x - o] === targetStr[midIndex + o]) ||
+              (matrix[y + o][x + o] === targetStr[midIndex + o] &&
+                matrix[y - o][x - o] === targetStr[midIndex - o])) &&
+            ((matrix[y + o][x - o] === targetStr[midIndex - o] &&
+              matrix[y - o][x + o] === targetStr[midIndex + o]) ||
+              (matrix[y + o][x - o] === targetStr[midIndex + o] &&
+                matrix[y - o][x + o] === targetStr[midIndex - o]))
+          )
         ) {
-          count++;
+          isCrossValid = false;
+          break;
         }
       }
+      if (isCrossValid) count++;
     }
   }
-
   return count;
 }
 
@@ -38,7 +41,7 @@ export function solveTwo(input) {
 //   const matrix = parseInput(input);
 //   const permutations = getPermutations(targetStr);
 
-//   let count = 0;
+//   let count = offset -1;
 //   for (let y = 0; y < matrix.length - targetStr.length; y++) {
 //     for (let x = 0; x < matrix[y].length - targetStr.length; x++) {
 //       let matchCount = 0;
@@ -80,19 +83,20 @@ export function solveTwo(input) {
 //   return permutations;
 // }
 
-function parseInput(input) {
-  let parsedInput = [];
-  const lines = input.split('\n');
-
-  lines.forEach((line) => {
-    parsedInput.push(line);
-  });
-
-  return parsedInput;
-}
+// PART ONE
+const DIRECTIONS = {
+  E: [1, 0],
+  N: [0, -1],
+  NE: [1, -1],
+  NW: [-1, -1],
+  S: [0, 1],
+  SE: [1, 1],
+  SW: [-1, 1],
+  W: [-1, 0],
+};
 
 export function solve(input, targetStr) {
-  const matrix = parseInput(input);
+  const matrix = input.split('\n');
 
   let count = 0;
   for (let y = 0; y < matrix.length; y++) {
